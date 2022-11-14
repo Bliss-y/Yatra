@@ -10,7 +10,8 @@ const express = require('express');
 env.config();
 const app = express();
 
-console.log(process.env.URI);
+
+
 
 // set an environment mongodb variable if u want faster result yeilds
 const url = process.env.URI || 'mongodb+srv://bliss:2eRYfCRdRuVMXi7M@woodland.pfprl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
@@ -43,17 +44,19 @@ app.use(session({
 
 // load routes
 app.use(bodyParser.json());
+app.use('/',require('./app/routes/routes'));
 
 app.use('/', express.static(__dirname + '/views/include'));
 
 app.use((err, req, res, next) => {
 	res.status(500);
 	console.log(err);
-	res.render('error', { err });
+	res.send(err);
 })
+
 
 // use ejs to generate html instead of writing html manually for all pages
 app.set("view engine", "ejs");
-app.set("views", [path.resolve(__dirname, "views"), path.resolve(__dirname, "views/admin"), path.resolve(__dirname, "views/teacher"), path.resolve(__dirname, "views/student")]);
+app.set("views", [path.resolve(__dirname, "app/views") ,path.resolve(__dirname, "app/views/newview")]);
 
-
+app.listen(3001, ()=>{console.log('started server at localhost:3001')})
