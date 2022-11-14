@@ -1,2 +1,0 @@
-# Yatra
-Cool Project
