@@ -1,14 +1,11 @@
-const sessionControl = require('./server/controller/sessionControl');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const multer = require('multer');
 const path = require("path");
 const fs = require("fs");
 const session = require("express-session");
-const users = require('./testData');
-const sessions = require('./server/controller/sessionControl');
 const env = require('dotenv');
-
+const express = require('express');
 
 env.config();
 const app = express();
@@ -46,19 +43,6 @@ app.use(session({
 
 // load routes
 app.use(bodyParser.json());
-
-
-
-app.get('/test', (req, res) => { res.render('test') });
-app.get('/testing/:type', require('./server/services/render').test);
-
-app.use('/admin/', sessions.notLogged, require('./server/routes/adminRoutes'));
-app.use('/teacher/', sessions.notLogged, require('./server/routes/teacherRoutes'));
-app.use('/student/', sessions.notLogged, require('./server/routes/studentRoutes'));
-app.use('/', require('./server/routes/router'));
-
-app.use('/fileget', express.static("./testUploads/"));
-
 
 app.use('/', express.static(__dirname + '/views/include'));
 
